@@ -11,8 +11,8 @@ OUTPUT_SUFFIX='.shroud.mask'
 
 DESCRIPTION = """
 Find all *.%s files and generate corresponding *.%s
-files.  The revealed areas should be represented as Basic Wooden Floor
-(Iwr) tiles and the shrouded areas should be Dark Flagstones (Urb).
+files.  The shrouded areas should be represented as Shroud (_s), all
+other tile types are unshrouded.
 """ % (INPUT_SUFFIX, OUTPUT_SUFFIX)
 
 
@@ -53,9 +53,8 @@ def parse_map_to_bits(f):
             subfields = field.strip().split()
             if len(subfields) == 2:
                 int(subfields.pop(0)) # Verify it's a start marker.
-            [tilekey] = subfields
-            bit = {'Iwr': '1', 'Urb': '0'}[tilekey]
-            column.append(bit)
+            [tilecode] = subfields
+            column.append('0' if tilecode == '_s' else '1')
 
         rows.append(column)
 
