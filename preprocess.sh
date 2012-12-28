@@ -22,6 +22,8 @@ wesnoth --preprocess "$bootstrap" "$output" --preprocess-defines MULTIPLAYER
 
 cat "$output/bootstrap.cfg"
 
+#wmllint "$output/bootstrap.cfg"
+
 rm -r "$tmp"
 
 
