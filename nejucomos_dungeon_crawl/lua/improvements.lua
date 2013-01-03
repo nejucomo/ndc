@@ -1,20 +1,11 @@
-local helper = wesnoth.require "lua/helper.lua"
-
 local _ = wesnoth.textdomain "NDC"
 
+local helper = wesnoth.require "lua/helper.lua"
 
--- public module interface --
-ndc = {
-   give_improvement = function (unitid)
-                         local unit = wesnoth.get_unit(unitid)
-                         local improvements = available_improvements(unit)
-                         helper.get_user_choice({ speaker = "test" }, improvements)
-                      end;
-}
+local contains = ndc_load "utils"
 
 
 -- improvements --
-
 local IMPROVEMENTS = {
    NimbleStaff = {
       description = _ "Apply experience with your staff to get the first strike when defending.";
@@ -51,14 +42,19 @@ local function available_improvements(unit)
 end
 
 
--- general utilities --
-local function contains(seq, item)
-   for k, v in ipairs(seq) do
-      if v == item then return true end
-   end
+
+local function give_improvement (unit)
+   local improvements = available_improvements(unit)
+   helper.get_user_choice({ speaker = "test" }, improvements)
 end
 
 
--- log & return --
-print('NDC preload.lua.')
-return ndc
+-- public module interface --
+return {
+   give_initial_improvements = function (sideid)
+                                  if contains({1, 2, 3, 4}, sideid) then
+                                     local leader = wesnoth.get_units { side = sideid, canrecruit = true }
+                                     give_improvement(leader)
+                                  end
+                               end;
+}
