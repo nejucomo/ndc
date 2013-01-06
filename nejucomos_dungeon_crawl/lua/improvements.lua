@@ -58,8 +58,8 @@ end
 return {
    give_initial_improvements = function (sideid)
                                   if contains({1, 2, 3, 4}, sideid) then
-                                     local leader = wesnoth.get_units { side = sideid, canrecruit = true }
-                                     debug('Leader for side %s is %r %r', sideid, leader.id, leader.name)
+                                     local leader = (wesnoth.get_units { side = sideid, canrecruit = true })[1]
+                                     debug('Leader for side %s is %r %r %r', sideid, leader.id, leader.name, leader)
                                      give_improvement(leader)
                                   end
                                end;

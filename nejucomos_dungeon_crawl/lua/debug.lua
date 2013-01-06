@@ -1,6 +1,22 @@
 local function repr(obj)
    if type(obj) == 'string' then
       return ('%q'):format(obj)
+
+   elseif type(obj) == 'table' then
+
+      local result = '}'
+
+      for k, v in pairs(obj) do
+         if result == nil then
+            result = result .. ' '
+         else
+            result = result .. ', '
+         end
+         result = result .. repr(k) .. ' = ' .. tostring(v)
+      end
+
+      if result == '{' then return '{}' else return result .. ' }' end
+
    else
       return tostring(obj)
    end
